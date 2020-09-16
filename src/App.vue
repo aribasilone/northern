@@ -3,20 +3,16 @@
     <h1>Internship Signup Form</h1>
     <div class="line"></div>
     <SignUp msg="Prepare for your career with a Project Management, Web-Development, Graphic design, or Digital Marketing internship at Northern."/>
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
 
 <script>
 import SignUp from './components/SignUp.vue'
-// import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
     SignUp
-    // HelloWorld
   }
 }
 </script>
@@ -24,12 +20,9 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat:wght@400;700&display=swap');
 #app {
-  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  /* color: #2c3e50; */
-  /* margin-top: 60px;   */
 
   font-family: 'Merriweather', sans-serif;
   color: white;

@@ -3,8 +3,9 @@
         <div v-show="sign">
             <p>{{ msg }}</p>
             <form v-on:submit.prevent="xyz()">
+                <p class="errorClass" :style="{visibility: error ? 'visible' : 'hidden'}">{{errorMsg}}</p>
             <div class="formFields">
-            <input class="email" v-model="email" type="email" name="emailAddr" placeholder="Your Email Address *" required :disabled="tf">
+            <input :disabled="tf" id="email" v-model="email" type="text" name="emailAddr" placeholder="Your Email Address *" @change="changeListener">
             <input list="intr" v-model="intr" name="interest" placeholder="Your Interests" :disabled="tf">
             <datalist id="intr">
                 <option value="Developement"></option>
@@ -34,6 +35,8 @@ export default {
       return{
           sign: true,
           thank:false,
+          error: false,
+          errorMsg: "Please enter a valid email address.",
           buttonMsg: "Sign Up Now ▶",
           tf: false,
           email: '',
@@ -42,11 +45,31 @@ export default {
   },
   methods:{
       xyz: function(){
-          console.log("Email: "+this.email+"\nInterest: "+this.intr);
-          this.buttonMsg="Submitting...";
-          this.tf=true;
-          setTimeout(() => {this.sign=false; this.thank=true}, 2000);
+          if (this.valid()){
+            console.log("Email: "+this.email+"\nInterest: "+this.intr);
+            this.tf=true;
+            this.buttonMsg="Submitting...";            
+            setTimeout(() => {this.sign=false; this.thank=true}, 2000);
+          }
           
+      },
+
+      valid: function(){
+          var mailformat = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+          if(this.email.match(mailformat))
+          {
+              return true;
+          }
+          else{
+              this.error=true;
+              document.getElementById("email").style.borderColor="#D02035";              
+              return false;              
+          }
+      },
+
+      changeListener: function(){
+        document.getElementById("email").style.borderColor="#FFFFFF";
+        this.error=false;
       }
   }
 }
@@ -56,11 +79,20 @@ export default {
 .content{
     margin-top: 5%;
 }
+form{
+     margin-top: 3%;
+}
 .formFields{
     display: flex;
-    flex-direction: row;
-    margin-top: 5%;
+    flex-direction: row;   
 }
+
+.errorClass{
+    font-size: 12px;
+    width:49%;
+    text-align: right;
+}
+
 input{
     width:49%;
     display: block;
@@ -69,15 +101,12 @@ input{
     font-size: 16px;
 }
 
-input:disabled, input.email:disabled{
+input:disabled, #email:disabled{
     background-color: white;
 }
 
-.email{
+#email{
     margin-right:2%;
-}
-input.email:focus:invalid {
-    border-color:#D02035;
 }
 
 #signUpButton{
